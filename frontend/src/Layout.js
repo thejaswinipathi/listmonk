@@ -102,8 +102,8 @@ class Base extends React.Component {
                   <Icon type="team" /> All subscribers
                 </Link>
               </Menu.Item>
-              <Menu.Item key="/subscribers">
-                <Link to="/subscribers">
+              <Menu.Item key="/subscribers/test">
+                <Link to="/subscribers/test">
                   <Icon type="team" /> All subscribers - Part 2
                 </Link>
               </Menu.Item>
@@ -191,6 +191,22 @@ class Base extends React.Component {
                   render={props => (
                     <Subscribers {...{ ...this.props, route: props }} />
                   )}
+                />
+                <Route
+                    exact
+                    key="/subscribers/test"
+                    path="/subscribers/test"
+                    render={props => (
+                        <Subscribers {...{ ...this.props, route: props }} />
+                    )}
+                />
+                <Route
+                    exact
+                    key="/subscribers/lists/:listID"
+                    path="/subscribers/lists/:listID"
+                    render={props => (
+                        <Subscribers {...{ ...this.props, route: props }} />
+                    )}
                 />
                 <Route
                   exact

@@ -121,8 +121,8 @@ type Subscriber struct {
 type SubscriberStat struct {
 	CreatedAt		null.Time			`db:"created_at" json:"created_at"`
 	Event			string				`db:"event" json:"event"`
-	SubscriberIDs	pq.Int64Array		`db:"subscriber_id" json:"subscriber-id"`
-	CampaignIDs		pq.Int64Array		`db:"campaign_id" json:"campaign-id"`
+	SubscriberIDs	int64		`db:"subscriber_id" json:"subscriber-id"`
+	CampaignIDs		int64		`db:"campaign_id" json:"campaign-id"`
 }
 
 type subLists struct {

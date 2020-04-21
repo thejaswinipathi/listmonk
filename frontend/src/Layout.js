@@ -104,7 +104,7 @@ class Base extends React.Component {
               </Menu.Item>
               <Menu.Item key="/subscribers/test">
                 <Link to="/subscribers/test">
-                  <Icon type="team" /> All subscribers - Part 2
+                  <Icon type="team" /> UserListOfEvents
                 </Link>
               </Menu.Item>
               <Menu.Item key="/subscribers/import">

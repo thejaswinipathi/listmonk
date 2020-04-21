@@ -724,4 +724,4 @@ select 'opened email from campaign' as event,campaign_id, subscriber_id, created
 from campaign_views
 where subscriber_id = (SELECT subscriber_id FROM prof)
 )
-select * from views UNION select * from clicks order by created_at desc limit 1;
+select * from views UNION select * from clicks order by created_at desc;

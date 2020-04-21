@@ -95,6 +95,37 @@ func handleGetSubscriber(c echo.Context) error {
 	return c.JSON(http.StatusOK, okResp{out[0]})
 }
 
+// handleGetSubscriber handles the retrieval of a single subscriber by ID.
+func handleGetSubscriberStats(c echo.Context) error {
+	var (
+		app   = c.Get("app").(*App)
+		id, _ = strconv.Atoi(c.Param("id"))
+
+		out models.Subscribers
+	)
+
+	if id < 1 {
+		return echo.NewHTTPError(http.StatusBadRequest, "Invalid subscriber ID.")
+	}
+
+	err := app.queries.GetSubscriberStats.Select(&out, id, nil)
+	if err != nil {
+		app.log.Printf("error fetching subscriber: %v", err)
+		return echo.NewHTTPError(http.StatusInternalServerError,
+			fmt.Sprintf("Error fetching subscriber: %s", pqErrMsg(err)))
+	}
+	if len(out) == 0 {
+		return echo.NewHTTPError(http.StatusBadRequest, "Subscriber not found.")
+	}
+	if err := out.LoadLists(app.queries.GetSubscriberListsLazy); err != nil {
+		app.log.Printf("error loading subscriber lists: %v", err)
+		return echo.NewHTTPError(http.StatusInternalServerError,
+			"Error loading subscriber lists.")
+	}
+
+	return c.JSON(http.StatusOK, okResp{out[0]})
+}
+
 // handleQuerySubscribers handles querying subscribers based on an arbitrary SQL expression.
 func handleQuerySubscribers(c echo.Context) error {
 	var (

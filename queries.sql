@@ -708,3 +708,20 @@ SELECT JSON_BUILD_OBJECT('lists', COALESCE((SELECT * FROM lists), '[]'),
                         'campaigns', COALESCE((SELECT * FROM camps), '[]'),
                         'link_clicks', COALESCE((SELECT * FROM clicks), '[]'),
                         'campaign_views', COALESCE((SELECT * FROM views), '[]')) AS stats;
+
+-- name: get-user-stats
+WITH prof AS (
+    SELECT id as subscriber_id FROM subscribers WHERE
+    CASE WHEN $1 > 0 THEN id = $1 ELSE uuid = $2 END
+),
+views AS (
+select 'clicked on url' as event,url as name, subscriber_id, link_clicks.created_at
+from link_clicks LEFT JOIN links ON (link_clicks.link_id = links.id)
+where  subscriber_id = (SELECT subscriber_id FROM prof)
+),
+clicks AS(
+select 'opened email from campaign' as event,campaigns.name, subscriber_id, campaign_views.created_at
+from campaign_views LEFT JOIN campaigns ON (campaigns.id = campaign_views.campaign_id)
+where subscriber_id = (SELECT subscriber_id FROM prof)
+)
+select * from views UNION select * from clicks order by created_at desc;

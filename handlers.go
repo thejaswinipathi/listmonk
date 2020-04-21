@@ -41,6 +41,7 @@ func registerHTTPHandlers(e *echo.Echo) {
 	e.GET("/api/dashboard/stats", handleGetDashboardStats)
 
 	e.GET("/api/subscribers/:id", handleGetSubscriber)
+	e.GET("/api/subscribersstats/:id", handleGetSubscriberStats)
 	e.GET("/api/subscribers/:id/export", handleExportSubscriberData)
 	e.POST("/api/subscribers", handleCreateSubscriber)
 	e.PUT("/api/subscribers/:id", handleUpdateSubscriber)

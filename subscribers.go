@@ -115,7 +115,7 @@ func handleGetSubscriberStats(c echo.Context) error {
 			fmt.Sprintf("Error fetching subscriber: %s", pqErrMsg(err)))
 	}
 	lo.Printf("out is %v", out)
-	return echo.NewHTTPError(http.StatusBadRequest, "Still in development")
+	return c.JSON(http.StatusOK, okResp{out})
 }
 
 // handleQuerySubscribers handles querying subscribers based on an arbitrary SQL expression.

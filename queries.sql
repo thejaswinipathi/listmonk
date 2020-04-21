@@ -715,13 +715,13 @@ WITH prof AS (
     CASE WHEN $1 > 0 THEN id = $1 ELSE uuid = $2 END
 ),
 views AS (
-select 'clicked on url' as event,url as name, subscriber_id, link_clicks.created_at
-from link_clicks LEFT JOIN links ON (link_clicks.link_id = links.id)
+select 'clicked on url' as event,campaign_id, subscriber_id, created_at
+from link_clicks
 where  subscriber_id = (SELECT subscriber_id FROM prof)
 ),
 clicks AS(
-select 'opened email from campaign' as event,campaigns.name, subscriber_id, campaign_views.created_at
-from campaign_views LEFT JOIN campaigns ON (campaigns.id = campaign_views.campaign_id)
+select 'opened email from campaign' as event,campaign_id, subscriber_id, created_at
+from campaign_views
 where subscriber_id = (SELECT subscriber_id FROM prof)
 )
-select * from views UNION select * from clicks order by created_at desc;
+select * from views UNION select * from clicks order by created_at desc limit 1;

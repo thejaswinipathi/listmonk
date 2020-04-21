@@ -101,7 +101,7 @@ func handleGetSubscriberStats(c echo.Context) error {
 		app   = c.Get("app").(*App)
 		id, _ = strconv.Atoi(c.Param("id"))
 
-		out models.Subscribers
+		out models.SubscribersStats
 	)
 
 	if id < 1 {
@@ -114,16 +114,8 @@ func handleGetSubscriberStats(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError,
 			fmt.Sprintf("Error fetching subscriber: %s", pqErrMsg(err)))
 	}
-	if len(out) == 0 {
-		return echo.NewHTTPError(http.StatusBadRequest, "Subscriber not found.")
-	}
-	if err := out.LoadLists(app.queries.GetSubscriberListsLazy); err != nil {
-		app.log.Printf("error loading subscriber lists: %v", err)
-		return echo.NewHTTPError(http.StatusInternalServerError,
-			"Error loading subscriber lists.")
-	}
-
-	return c.JSON(http.StatusOK, okResp{out[0]})
+	lo.Printf("out is %v", out)
+	return echo.NewHTTPError(http.StatusBadRequest, "Still in development")
 }
 
 // handleQuerySubscribers handles querying subscribers based on an arbitrary SQL expression.

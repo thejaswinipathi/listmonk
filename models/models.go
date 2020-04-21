@@ -117,6 +117,14 @@ type Subscriber struct {
 	// in searches and queries.
 	Total int `db:"total" json:"-"`
 }
+
+type SubscriberStat struct {
+	CreatedAt		null.Time			`db:"created_at" json:"created_at"`
+	Event			string				`db:"uuid" json:"event"`
+	SubscriberIDs	pq.Int64Array		`db:"campaigns" json:"subscriber-id"`
+	CampaignIDs		pq.Int64Array		`db:"campaigns" json:"campaign-id"`
+}
+
 type subLists struct {
 	SubscriberID int            `db:"subscriber_id"`
 	Lists        types.JSONText `db:"lists"`
@@ -147,6 +155,8 @@ type List struct {
 	// in searches and queries.
 	Total int `db:"total" json:"-"`
 }
+
+type SubscribersStats []SubscriberStat
 
 // Campaign represents an e-mail campaign.
 type Campaign struct {
